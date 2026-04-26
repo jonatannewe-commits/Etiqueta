@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Têxtil Pro</title>
+    <style>
+        :root {
+            --primary: #1A237E;
+            --success: #2E7D32;
+            --warning: #F57C00;
+            --danger: #C62828;
+            --bg: #F5F7FA;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #camera-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .guide-box {
+            position: absolute;
+            border: 2px solid rgba(255,255,255,0.5);
+            width: 80%;
+            height: 40%;
+            border-radius: 8px;
+            box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+        }
+
+        .controls {
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-scan {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .result-card {
+            margin: 20px;
+            padding: 15px;
+            background: white;
+            border-left: 8px solid var(--primary);
+            border-radius: 4px;
+            display: none; /* Aparece após o scan */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Validador Têxtil Mercosul</h1>
+    </header>
+
+    <div id="camera-container">
+        <video id="video" autoplay playsinline></video>
+        <div class="guide-box"></div>
+    </div>
+
+    <div id="result" class="result-card">
+        <h3 id="status-text">Analisando...</h3>
+        <p id="details">Aguardando captura de imagem.</p>
+    </div>
+
+    <div class="controls">
+        <button class="btn-scan" onclick="captureImage()">ESCANEAR ETIQUETA</button>
+    </div>
+</div>
+
+<script>
+    // Lógica básica de acesso à câmera
+    const video = document.getElementById('video');
+
+    async function setupCamera() {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        video.srcObject = stream;
+    }
+
+    function captureImage() {
+        // Aqui entraria a integração com a IA
+        const resultCard = document.getElementById('result');
+        resultCard.style.display = 'block';
+        document.getElementById('status-text').innerText = "Processando via IA...";
+        
+        // Simulação de resposta
+        setTimeout(() => {
+            document.getElementById('status-text').innerText = "CONFORMIDADE PARCIAL";
+            document.getElementById('result').style.borderColor = "var(--warning)";
+            document.getElementById('details').innerHTML = "• Composição OK<br>• Símbolos de lavagem fora de ordem<br>• CNPJ legível";
+        }, 2000);
+    }
+
+    setupCamera();
+</script>
+</body>
+</html>
